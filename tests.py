@@ -83,23 +83,23 @@ class CoreTest(BaseTest):
     def test_Scrape(self):
 
         # url
-        scrape = Scrape('http://en.wikipedia.org/wiki/New_York_City')
+        scrape = Scrape('https://en.wikipedia.org/wiki/New_York_City')
         self.assertIs(scrape, Scrape)
         urls = [
-            'http://it.wikipedia.org/wiki/New_York_City',
-            'http://de.wikipedia.org/wiki/',
-            'http://www.google.de/'
+            'https://it.wikipedia.org/wiki/New_York_City',
+            'https://de.wikipedia.org/wiki/',
+            'https://www.google.de/'
         ]
         for url in urls:
             self.assertRaises(ValueError, lambda: Scrape(url))
-        scrape = Scrape('http://en.wikipedia.org/wiki/Python')
+        scrape = Scrape('https://en.wikipedia.org/wiki/Python')
         self.assertRaises(UserWarning, lambda: scrape.scrape_url())
 
-        scrape = Scrape('http://en.wikipedia.org/wiki/New_York_City')
+        scrape = Scrape('https://en.wikipedia.org/wiki/New_York_City')
         scrape.scrape_url()
-        scrape = Scrape('http://en.wikipedia.org/wiki/Moscow')
+        scrape = Scrape('https://en.wikipedia.org/wiki/Moscow')
         scrape.scrape_url()
-        scrape = Scrape('http://de.wikipedia.org/wiki/New_York_City')
+        scrape = Scrape('https://de.wikipedia.org/wiki/New_York_City')
         scrape.scrape_url()
 
         # url
@@ -130,7 +130,7 @@ class CoreTest(BaseTest):
         spot = Spot(
             title='New York', latitude=-74.0058333333,
             longitude=40.7127777778, elevation=10.0,
-            url='http://de.wikipedia.org/wiki/New_York_City')
+            url='https://de.wikipedia.org/wiki/New_York_City')
         self.assertIs(spot, Spot)
 
         # url
@@ -155,14 +155,14 @@ class CoreTest(BaseTest):
             AttributeError, setattr, spot, "elevation", "set not allowed")
 
         # search
-        spot = Spot.from_search(Search('New York'))
+        spot = Spot.from_search(Search('New York City'))
         self.assertIs(spot, Spot)
         self.assertRaises(
             ValueError, lambda: Spot.from_search(
-                Scrape('http://de.wikipedia.org/wiki/New_York_City')))
+                Scrape('https://de.wikipedia.org/wiki/New_York_City')))
         # scrape
         spot = Spot.from_scrape(
-            Scrape('http://de.wikipedia.org/wiki/New_York_City'))
+            Scrape('https://de.wikipedia.org/wiki/New_York_City'))
         self.assertIs(spot, Spot)
         self.assertRaises(
             ValueError, lambda: Spot.from_scrape(Search('New York City')))
