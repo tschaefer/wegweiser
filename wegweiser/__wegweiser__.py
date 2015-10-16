@@ -109,7 +109,7 @@ def parse_options():
 
 def get_spots(wikiobj, language):
     wiki_url_pattern = re.compile(
-        r'^http://(de|en|fr).wikipedia.org/wiki/.+'
+        r'^https://(de|en|fr).wikipedia.org/wiki/.+'
     )
     spots = []
     for obj in wikiobj:
