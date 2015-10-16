@@ -68,11 +68,11 @@ Save map as png.
 
 ### Map and KML of multiple spots
 
-	$ wegweiser map -l en -p -t terrain 'Mount Rushmore' 'Area 51' 'Golden Gate Bridge' http://en.wikipedia.org/wiki/Niagara_Falls -f sights.png
+	$ wegweiser map -l en -p -t terrain 'Mount Rushmore' 'Area 51' 'Golden Gate Bridge' https://en.wikipedia.org/wiki/Niagara_Falls -f sights.png
 
 ![Sights](http://tinyurl.com/c6q4haz "Sights")
 
-	$ wegweiser markup -l en 'Mount Rushmore' 'Area 51' 'Golden Gate Bridge' http://en.wikipedia.org/wiki/Niagara_Falls -f sights.kml
+	$ wegweiser markup -l en 'Mount Rushmore' 'Area 51' 'Golden Gate Bridge' https://en.wikipedia.org/wiki/Niagara_Falls -f sights.kml
 
 KML code.
 
