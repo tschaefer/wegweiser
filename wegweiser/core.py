@@ -13,8 +13,8 @@ agent.addheaders = [('User-agent', 'Mozilla/5.0')]
 class Search(object):
 
     LANGUAGES = ['de', 'en', 'fr']
-    BASE_URL = 'http://%s.wikipedia.org/w/api.php\
-                ?action=opensearch&search=%s&format=xml&limit=%s'
+    BASE_URL = 'https://%s.wikipedia.org/w/api.php'
+    BASE_URL += '?action=opensearch&search=%s&format=xml&limit=%s'
     LIMIT = range(1, 100)
     NAMESPACE = '{http://opensearch.org/searchsuggest2}'
 
@@ -71,7 +71,7 @@ class Scrape(object):
     URL_OPTS = '%s?printable=yes'
 
     def __init__(self, url):
-        pattern = re.compile(r'^http://(de|en|fr).wikipedia.org/wiki/.+')
+        pattern = re.compile(r'^https://(de|en|fr).wikipedia.org/wiki/.+')
         if not pattern.match(url):
             raise ValueError("'%s' no valid URL" % url)
         self._url = url
@@ -86,11 +86,14 @@ class Scrape(object):
         content = fd.read()
         tree = ElementTree.parse(StringIO(content))
         root = tree.getroot()
+
+        for tag in root.iter(tag='h1'):
+            if 'class' in tag.attrib:
+                if tag.attrib['class'] == 'firstHeading':
+                    title = tag.text
+
         tags = root.getiterator(tag='span')
         for tag in tags:
-            if 'dir' in tag.attrib:
-                if tag.attrib['dir'] == 'auto':
-                    title = tag.text
             if 'class' in tag.attrib:
                 if tag.attrib['class'] == 'latitude':
                     if 'latitude' in locals():
@@ -109,6 +112,7 @@ class Scrape(object):
         if 'en.wikipedia.org' in self.url:
             latitude = self._calculate_decimal_degree(latitude)
             longitude = self._calculate_decimal_degree(longitude)
+
         self._title = title
         self._latitude = float(latitude)
         self._longitude = float(longitude)
